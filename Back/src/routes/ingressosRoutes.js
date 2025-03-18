@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const IngressosController = require("../controllers/ingressosController");
+const ingressosController = require("../controllers/ingressosController");
 
-router.get("/ingressos", ingressoController.getAllingressos);
-router.get("/ingressos/:id", ingressoController.getIngressos);
-router.post("/ingressos", ingressoController.createIngressos);
-router.put("/ingressos/:id", ingressoController.updateIngressos);
-router.delete("/ingressos/:id", ingressoController.deleteIngressos);
+router.get("/ingressos", ingressosController.getAllingressos);
+router.get("/ingressos/:id", ingressosController.getIngresso);
+router.post("/ingressos", ingressosController.createIngresso);
+router.put("/ingressos/:id", ingressosController.updateIngresso);
+router.delete("/ingressos/:id", ingressosController.deleteIngresso);
 
 module.exports = router;
