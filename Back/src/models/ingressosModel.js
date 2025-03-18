@@ -1,4 +1,4 @@
-const pool = require("../config/database");
+const pool = require("../config//database");
 
 const getIngressos = async () => {
     const result = await pool.query("SELECT * FROM ingressos");
@@ -20,7 +20,7 @@ const createIngressos = async (id, evento, local, data_evento, categoria, preco,
 
 const updateIngressos = async (id, evento, local, data_evento, categoria, preco, quantidade_disponivel) => {
     const result = await pool.query(
-        "UPDATE ingressos SET name = $1, email = $2 WHERE id = $3 RETURNING *",
+        "UPDATE ingressos SET evento = $2, local = $3, data_evento = $4, categoria = $5, preco = $6, quantidade_disponivel = $7 WHERE id = $1 RETURNING *",
         [id, evento, local, data_evento, categoria, preco, quantidade_disponivel]
     );
     return result.rows[0];

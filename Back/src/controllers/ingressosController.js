@@ -14,7 +14,7 @@ const getAllingressos = async (req, res) => {
 
 const getIngresso = async (req, res) => {
     try {
-        const ingresso = await ingressoModel.getIngressoById(req.params.id);
+        const ingresso = await ingressosModel.getIngressoById(req.params.id);
         if (!ingresso) {
             return res.status(404).json({ message: "Ingresso não encontrado." });
         }
@@ -27,7 +27,7 @@ const getIngresso = async (req, res) => {
 const createIngresso = async (req, res) => {
     try {
         const { id, evento, local, data_evento, categoria, preco, quantidade_disponivel } = req.body;
-        const newIngresso = await userModel.createUser(id, evento, local, data_evento, categoria, preco, quantidade_disponivel);
+        const newIngresso = await ingressosModel.createIngressos(id, evento, local, data_evento, categoria, preco, quantidade_disponivel);
         res.status(201).json(newIngresso);
     } catch (error) {
 	console.log(error);
@@ -53,7 +53,7 @@ const updateIngresso = async (req, res) => {
 
 const deleteIngresso = async (req, res) => {
     try {
-        const message = await ingressoModel.deleteIngresso(req.params.id);
+        const message = await ingressosModel.deleteIngresso(req.params.id);
         res.json(message);
     } catch (error) {
         res.status(500).json({ message: "Erro ao deletar ingresso." });
