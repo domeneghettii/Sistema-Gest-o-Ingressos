@@ -1,16 +1,15 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const ingressosRoutes = require("./src/routes/ingressosRoutes");
+const ingressoRoutes = require("./src/routes/ingressosRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", ingressosRoutes);
+app.use("/api", ingressoRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5084;
 app.listen(PORT, () => {
-    console.log(`❤✌ Servidor rodando em http://localhost:${PORT}`);
+    console.log(`🚀 Server on na geral http://localhost:${PORT}`);
 });
-
