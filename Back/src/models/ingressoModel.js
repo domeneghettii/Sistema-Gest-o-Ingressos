@@ -16,7 +16,21 @@ const createIngresso = async (evento, local, data_evento, categoria, preco, quan
         [evento, local, data_evento, categoria, preco, quantidade_disponivel]
     );
 
-    if(categoria == "Pista" )
+    if(categoria == "Pista" ) {
+        
+    }
+
+    if(categoria == "Vip") {
+
+    }
+
+    if(categoria == "Camarote") {
+
+    }
+
+    if(categoria == "Arquibancada") {
+        
+    }
 
     return result.rows[0];
 };
