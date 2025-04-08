@@ -1,23 +1,23 @@
 const { format } = require("@fast-csv/format");
 const PDFDocument = require("pdfkit");
 
-const wizardModel = require("../models/wizardModel");
+const ingressoModel = require("../models/ingressoModel");
 
-const exportWizardCSV = async (req, res) => {
+const exportIngressoCSV = async (req, res) => {
     try {
-        const wizards =  await wizardModel.getWizards();
+        const ingressos =  await ingressoModel.getAllIngressos();
 
-        res.setHeader("Content-Disposition", "attachment; filename=wizards.csv");
+        res.setHeader("Content-Disposition", "attachment; filename=ingresso.csv");
         res.setHeader("Content-Type", "text-csv");
 
         const csvStream = format({ headers: true});
         csvStream.pipe(res);
 
-        wizards.forEach((wizard) => {
+        ingressos.forEach((ingresso) => {
             csvStream.write({
-                Id: wizard.id,
-                Nome: wizard.name,
-                Casa: wizard.house_name || "Sem Casa"
+                Id: ingresso.id,
+                Nome: ingresso.name,
+                Casa: ingresso.house_name || "Sem Casa"
             });
         });
         
@@ -27,28 +27,28 @@ const exportWizardCSV = async (req, res) => {
     }
 };
 
-const exportWizardPDF = async (req, res) => {
+const exportIngressoPDF = async (req, res) => {
     try {
-        const wizards = await wizardModel.getWizards();
+        const ingressos = await ingressoModel.getAllIngressos();
 
         res.setHeader("Content-Type", "application/pdf");
-        res.setHeader("Content-Disposition", "inline; filename=wizards.pdf")
+        res.setHeader("Content-Disposition", "inline; filename=ingresso.pdf")
 
         const doc = new PDFDocument();
         doc.pipe(res);
 
         //Titulo
-        doc.fontSize(20).text("Relatorio de Bruxos", {align: "center"});
+        doc.fontSize(20).text("GERENCIAMENTO DE INGRESSOS", {align: "center"});
         doc.moveDown();
 
         //Cabeçalho
-        doc.fontSize(12).text("Id | Nome | Casa", {underline: true});
+        doc.fontSize(13).text("Id | Evento | Local | Data | Categoria | Preço | Quantidade", {align: "center"});
         doc.moveDown(0.5);
 
         //Add dados dos bruxos
-        wizards.forEach((wizard) => {
-            doc.text(
-                `${wizard.id} | ${wizard.name} | ${wizard.house_name || "Sem Casa"}`
+        ingressos.forEach((ticket) => {
+            doc.text (
+                `${ingresso.id} | ${ingresso.evento} | ${ingresso.local} | ${ingresso.data_evento} | ${ingresso.categoria} | ${ingresso.preco} | ${ingresso.quantidade_disponivel}`,
             );
         });
 
@@ -58,4 +58,4 @@ const exportWizardPDF = async (req, res) => {
     }
 };
 
-module.exports = { exportWizardCSV, exportWizardPDF };
+module.exports = { exportIngressoCSV, exportIngressoPDF };
