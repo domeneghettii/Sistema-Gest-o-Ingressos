@@ -5,7 +5,7 @@ const ingressoModel = require("../models/ingressoModel");
 
 const exportIngressoCSV = async (req, res) => {
     try {
-        const ingressos =  await ingressoModel.getAllIngressos();
+        const ingressos =  await ingressoModel.getIngresso();
 
         res.setHeader("Content-Disposition", "attachment; filename=ingresso.csv");
         res.setHeader("Content-Type", "text-csv");
@@ -16,8 +16,12 @@ const exportIngressoCSV = async (req, res) => {
         ingressos.forEach((ingresso) => {
             csvStream.write({
                 Id: ingresso.id,
-                Nome: ingresso.name,
-                Casa: ingresso.house_name || "Sem Casa"
+                evento: ingresso.evento,
+                local: ingresso.local,
+                data_evento: ingresso.data_evento,
+                categoria: ingresso.categoria,
+                preco: ingresso.preco,
+                quantidade_disponivel: ingresso.quantidade_disponivel,
             });
         });
         
@@ -29,32 +33,33 @@ const exportIngressoCSV = async (req, res) => {
 
 const exportIngressoPDF = async (req, res) => {
     try {
-        const ingressos = await ingressoModel.getAllIngressos();
+        const ingressos = await ingressoModel.getIngresso();
 
         res.setHeader("Content-Type", "application/pdf");
-        res.setHeader("Content-Disposition", "inline; filename=ingresso.pdf")
+        res.setHeader("Content-Disposition", "inline; filename=ingressos.pdf")
 
         const doc = new PDFDocument();
         doc.pipe(res);
 
-        //Titulo
-        doc.fontSize(20).text("GERENCIAMENTO DE INGRESSOS", {align: "center"});
+    
+        doc.fontSize(20).text("Relatorio de Ingressos", {align: "center"});
         doc.moveDown();
 
-        //Cabeçalho
-        doc.fontSize(13).text("Id | Evento | Local | Data | Categoria | Preço | Quantidade", {align: "center"});
+       
+        doc.fontSize(12).text("Id | evento | local |  data_evento | categoria | preco | quantidade_disponivel", {underline: true});
         doc.moveDown(0.5);
 
-        //Add dados dos bruxos
+        
         ingressos.forEach((ingresso) => {
-            doc.text (
-                `${ingresso.id} | ${ingresso.evento} | ${ingresso.local} | ${ingresso.data_evento} | ${ingresso.categoria} | ${ingresso.preco} | ${ingresso.quantidade_disponivel}`,
+            doc.text(
+                `${ingresso.id} | ${ingresso.evento} | ${ingresso.local} | ${ingresso.data_evento} | ${ingresso.categoria} | ${ingresso.preco} | ${ingresso.quantidade_disponivel}`
             );
         });
 
         doc.end(); 
     } catch (error) {
-        res.status(500).json({ message: "Erro ao gerar o PDF"}); 
+        console.error('Erro ao gerar o PDF:', error);
+        res.status(500).json({ message: "Erro ao gerar o pdf"}); 
     }
 };
 
