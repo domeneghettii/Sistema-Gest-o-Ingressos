@@ -46,7 +46,7 @@ const exportIngressoPDF = async (req, res) => {
         doc.moveDown(0.5);
 
         //Add dados dos bruxos
-        ingressos.forEach((ticket) => {
+        ingressos.forEach((ingresso) => {
             doc.text (
                 `${ingresso.id} | ${ingresso.evento} | ${ingresso.local} | ${ingresso.data_evento} | ${ingresso.categoria} | ${ingresso.preco} | ${ingresso.quantidade_disponivel}`,
             );
