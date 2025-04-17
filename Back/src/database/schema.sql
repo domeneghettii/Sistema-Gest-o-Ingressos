@@ -1,6 +1,6 @@
 CREATE DATABASE gestao_eventos;
 
-/c gestao_eventos;
+\c gestao_eventos;
 
 CREATE TABLE ingressos (
     id SERIAL PRIMARY KEY,
